@@ -17,7 +17,7 @@
 /****************************/
 
 static KeyControlType KeysToControlBits(void);
-static void MakeSpeedPuff(void);
+/*static void MakeSpeedPuff(void);*/
 static void StartJetPack(ObjNode *theNode);
 static void MoveJetPackFlame(ObjNode *theNode);
 
@@ -504,7 +504,16 @@ float	sumDX,sumDY,sumDZ,maxSpeed;
 		if (theNode->StatusBits & STATUS_BIT_ONGROUND)
 			if (theNode->InvincibleTimer <= 0.0f)
 				if (gMyLatestTileAttribs & TILE_ATTRIB_MAKEDUST)
-					MakeSpeedPuff();
+				{
+					gMySpeedPuffCounter += gFramesPerSecondFrac;
+					short i = gMySpeedPuffCounter / SPEED_PUFF_RATE;
+					if (i > 0)
+					{
+						gMySpeedPuffCounter -= (float)i * SPEED_PUFF_RATE;
+						while (i--)
+							MakeDustPuff(gCoord.x, gCoord.y - DIST_FROM_ORIGIN_TO_FEET + 10, gCoord.z, .3);
+					}
+				}
 }
 
 
@@ -614,7 +623,7 @@ float	targetHeight,diff,fps;
 
 /************************** MAKE SPEED PUFF *****************************/
 
-static void MakeSpeedPuff(void)
+/*static void MakeSpeedPuff(void)
 {
 short	i;
 
@@ -627,7 +636,7 @@ short	i;
 			MakeDustPuff(gCoord.x, gCoord.y-DIST_FROM_ORIGIN_TO_FEET+10, gCoord.z, .3);
 	}
 }
-
+*/
 
 
 /************************ DO FRICTION & GRAVITY ****************************/

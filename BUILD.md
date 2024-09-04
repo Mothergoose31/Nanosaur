@@ -1,76 +1,127 @@
-# How to build Nanosaur
+# Building Nanosaur
 
-## The easy way: build.py (automated build script)
+## Quick Start: Using build.py (Automated Build Script)
 
-`build.py` can produce a game executable from a fresh clone of the repo in a single command. It will work on macOS, Windows and Linux, provided that your system has Python 3, CMake, and an adequate C++ compiler.
+The `build.py` script offers a streamlined method to create a game executable from a fresh repository clone. This script is compatible with macOS, Windows, and Linux, provided your system meets these prerequisites:
 
-```
-git clone --recurse-submodules https://github.com/jorio/Nanosaur
-cd Nanosaur
-python3 build.py
-```
+- Python 3
+- CMake
+- A suitable C++ compiler
 
-If you want to build the game **manually** instead, the rest of this document describes how to do just that on each of the big 3 desktop OSes.
+Follow these steps to build Nanosaur:
 
-## How to build the game manually on macOS
+1. Clone the repository with submodules:
+   ```
+   git clone --recurse-submodules https://github.com/jorio/Nanosaur
+   ```
 
-1. Install the prerequisites:
-    - Xcode 12+
-    - [CMake](https://formulae.brew.sh/formula/cmake) 3.16+ (installing via Homebrew is recommended)
-1. Clone the repo **recursively**:
-    ```
-    git clone --recurse-submodules https://github.com/jorio/Nanosaur
-    cd Nanosaur
-    ```
-1. Download [SDL2-2.30.2.dmg](https://libsdl.org/release/SDL2-2.30.2.dmg), open it, and copy **SDL2.framework** to the **extern** folder
-1. Prep the Xcode project:
-    ```
-    cmake -G Xcode -S . -B build
-    ```
-1. Now you can open `build/Nanosaur.xcodeproj` in Xcode, or you can just go ahead and build the game:
-    ```
-    cmake --build build --config RelWithDebInfo
-    ```
-1. The game gets built in `build/RelWithDebInfo/Nanosaur.app`. Enjoy!
+2. Navigate to the project directory:
+   ```
+   cd Nanosaur
+   ```
 
-## How to build the game manually on Windows
+3. Run the build script:
+   ```
+   python3 build.py
+   ```
 
-1. Install the prerequisites:
-    - Visual Studio 2022 with the C++ toolchain
-    - [CMake](https://cmake.org/download/) 3.16+
-1. Clone the repo **recursively**:
-    ```
-    git clone --recurse-submodules https://github.com/jorio/Nanosaur
-    cd Nanosaur
-    ```
-1. Download [SDL2-devel-2.30.2-VC.zip](https://libsdl.org/release/SDL2-devel-2.30.2-VC.zip), extract it, and copy **SDL2-2.30.2** to the **extern** folder
-1. Prep the Visual Studio solution:
-    ```
-    cmake -G "Visual Studio 17 2022" -A x64 -S . -B build
-    ```
-1. Now you can open `build/Nanosaur.sln` in Visual Studio, or you can just go ahead and build the game:
-    ```
-    cmake --build build --config Release
-    ```
-1. The game gets built in `build/Release/Nanosaur.exe`. Enjoy!
+4. Once the build process completes:
+   - Locate the zipped Nanosaur build in the "Build" directory
+   - Unpack the zip file
+   - Launch the game by running the Nanosaur executable
 
-## How to build the game manually on Linux et al.
+This automated process simplifies the build workflow, allowing you to go from a fresh clone to a playable game with minimal manual intervention.
 
-1. Install the prerequisites from your package manager:
-    - Any C++20 compiler
-    - CMake 3.16+
-    - SDL2 development library (e.g. "libsdl2-dev" on Ubuntu, "sdl2" on Arch, "SDL-devel" on Fedora)
-    - OpenGL development libraries (e.g. "libgl1-mesa-dev" on Ubuntu)
-1. Clone the repo **recursively**:
-    ```
-    git clone --recurse-submodules https://github.com/jorio/Nanosaur
-    cd Nanosaur
-    ```
-1. Build the game:
-    ```
-    cmake -S . -B build -DCMAKE_BUILD_TYPE=RelWithDebInfo
-    cmake --build build
-    ```
-    If you'd like to enable runtime sanitizers, append `-DSANITIZE=1` to the **first** `cmake` call above.
-1. The game gets built in `build/Nanosaur`. Enjoy!
+## Manual Build Instructions
 
+If you prefer to build the game manually, follow the platform-specific instructions below.
+
+### macOS Manual Build
+
+1. **Prerequisites:**
+   - Xcode 12 or later
+   - CMake 3.16 or later (Homebrew installation recommended)
+
+2. **Clone the repository:**
+   ```
+   git clone --recurse-submodules https://github.com/jorio/Nanosaur
+   cd Nanosaur
+   ```
+
+3. **Set up SDL2:**
+   - Download [SDL2-2.30.2.dmg](https://libsdl.org/release/SDL2-2.30.2.dmg)
+   - Mount the DMG and copy `SDL2.framework` to the `extern` folder in your project directory
+
+4. **Generate Xcode project:**
+   ```
+   cmake -G Xcode -S . -B build
+   ```
+
+5. **Build the game:**
+   - Open `build/Nanosaur.xcodeproj` in Xcode and build from there, or
+   - Use the command line:
+     ```
+     cmake --build build --config RelWithDebInfo
+     ```
+
+6. **Run the game:**
+   The built application will be located at `build/RelWithDebInfo/Nanosaur.app`
+
+### Windows Manual Build
+
+1. **Prerequisites:**
+   - Visual Studio 2022 with C++ toolchain
+   - CMake 3.16 or later
+
+2. **Clone the repository:**
+   ```
+   git clone --recurse-submodules https://github.com/jorio/Nanosaur
+   cd Nanosaur
+   ```
+
+3. **Set up SDL2:**
+   - Download [SDL2-devel-2.30.2-VC.zip](https://libsdl.org/release/SDL2-devel-2.30.2-VC.zip)
+   - Extract and copy the `SDL2-2.30.2` folder to the `extern` directory in your project
+
+4. **Generate Visual Studio solution:**
+   ```
+   cmake -G "Visual Studio 17 2022" -A x64 -S . -B build
+   ```
+
+5. **Build the game:**
+   - Open `build/Nanosaur.sln` in Visual Studio and build from there, or
+   - Use the command line:
+     ```
+     cmake --build build --config Release
+     ```
+
+6. **Run the game:**
+   The built executable will be located at `build/Release/Nanosaur.exe`
+
+### Linux Manual Build
+
+1. **Prerequisites:**
+   Install the following packages using your distribution's package manager:
+   - C++20 compatible compiler
+   - CMake 3.16 or later
+   - SDL2 development library (e.g., `libsdl2-dev` on Ubuntu, `sdl2` on Arch, `SDL-devel` on Fedora)
+   - OpenGL development libraries (e.g., `libgl1-mesa-dev` on Ubuntu)
+
+2. **Clone the repository:**
+   ```
+   git clone --recurse-submodules https://github.com/jorio/Nanosaur
+   cd Nanosaur
+   ```
+
+3. **Build the game:**
+   ```
+   cmake -S . -B build -DCMAKE_BUILD_TYPE=RelWithDebInfo
+   cmake --build build
+   ```
+   
+   Note: To enable runtime sanitizers, add `-DSANITIZE=1` to the first `cmake` command.
+
+4. **Run the game:**
+   The built executable will be located at `build/Nanosaur`
+
+Enjoy playing Nanosaur!
